@@ -12,7 +12,7 @@ const PASSWORD_RESET_REQUEST_TEMPLATE = `
 
 const PASSWORD_RESET_SUCCESS_TEMPLATE = `
   <h1>Password Successfully Reset</h1>
-  <p>Your password was changed at {timestamp}.</p>
+  <p>Your password was changed successfully.</p>
 `;
 
 const createWelcomeEmailTemplate = (username) => `
