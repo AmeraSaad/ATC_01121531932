@@ -55,7 +55,7 @@ module.exports.signup = asyncHandler(async (req, res) => {
     username,
     verificationToken,
     verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-    // isVerified: true,
+    isVerified: true,
   });
   await user.save();
 
@@ -63,7 +63,7 @@ module.exports.signup = asyncHandler(async (req, res) => {
   generateTokenAndSetCookie(res, user._id, user.isAdmin);
 
   //send verification token "email"
-  await sendVerificationEmail(user.email, verificationToken);
+  // await sendVerificationEmail(user.email, verificationToken);
 
   res.status(201).json({
     success: true,
@@ -213,17 +213,13 @@ module.exports.forgotPassword = asyncHandler(async (req, res) => {
 });
 
 module.exports.resetPassword = asyncHandler(async (req, res) => {
-  // 1) validate the new password
   const { error } = validateChangePassword(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
 
-  // 2) grab token and new password
   const { token } = req.params;
   const { password } = req.body;
-
-  // 3) find the user by token
   const user = await User.findOne({
     resetPasswordToken: token,
     resetPasswordExpiresAt: { $gt: Date.now() },
@@ -234,13 +230,11 @@ module.exports.resetPassword = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Invalid or expired reset token" });
   }
 
-  // 4) hash & save the new password
   user.password = await bcryptjs.hash(password, 10);
   user.resetPasswordToken = undefined;
   user.resetPasswordExpiresAt = undefined;
   await user.save();
 
-  // 5) send a confirmation email
   await sendResetSuccessEmail(user.email);
 
   res
