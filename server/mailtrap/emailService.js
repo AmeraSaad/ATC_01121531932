@@ -35,7 +35,7 @@ module.exports.sendWelcomeEmail = async (email, username) => {
 		const response = await transporter.sendMail({
 			from: sender,
 			to: email,
-			subject: "Welcome to UnLinked!",
+			subject: "Welcome to our platform",
 			html: createWelcomeEmailTemplate(username),  
 			category: "Welcome Email",
 		});
