@@ -55,7 +55,7 @@ module.exports.signup = asyncHandler(async (req, res) => {
     username,
     verificationToken,
     verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-    isVerified: true,
+    // isVerified: true,
   });
   await user.save();
 
@@ -63,7 +63,7 @@ module.exports.signup = asyncHandler(async (req, res) => {
   generateTokenAndSetCookie(res, user._id, user.isAdmin);
 
   //send verification token "email"
-  // await sendVerificationEmail(user.email, verificationToken);
+  await sendVerificationEmail(user.email, verificationToken);
 
   res.status(201).json({
     success: true,

@@ -1,9 +1,9 @@
 // src/pages/Login.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../../store/authStore";
 
-export default function Login() {
+export default function LoginPage() {
   const navigate = useNavigate();
   const { login, isLoading, error } = useAuthStore();
 
@@ -45,12 +45,20 @@ export default function Login() {
           onChange={handleChange}
           placeholder="Password"
           required
-          className="w-full mb-4 p-2 border rounded"
+          className="w-full mb-2 p-2 border rounded"
         />
 
-        <button
+          {/* Forgot Password */}
+          <Link
+            to={"/forgot-password"}
+            className="text-sm text-gray-600 hover:underline cursor-pointer"
+          >
+            Forgot Password?
+          </Link>
+          
+          <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          className="w-full bg-green-600 text-white py-2 mt-2 rounded hover:bg-green-700"
           disabled={isLoading}
         >
           {isLoading ? "Logging in…" : "Log In"}
@@ -58,7 +66,7 @@ export default function Login() {
 
         <p className="mt-4 text-sm">
           Don’t have an account?{" "}
-          <Link to="/signup" className="text-blue-600">
+          <Link to="/signup" className="text-blue-600 hover:underline ">
             Sign up
           </Link>
         </p>

@@ -1,9 +1,9 @@
 // src/pages/Signup.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../../store/authStore";
 
-export default function Signup() {
+export default function SignupPage() {
   const navigate = useNavigate();
   const { signup, error, isLoading } = useAuthStore();
 
@@ -16,7 +16,7 @@ export default function Signup() {
     e.preventDefault();
     try {
       await signup(form.email, form.password, form.username);
-      navigate("/"); // after signup go to home
+      navigate("/verify-email"); 
     } catch {}
   };
 
@@ -58,7 +58,7 @@ export default function Signup() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
           disabled={isLoading}
         >
           {isLoading ? "Signing up…" : "Sign Up"}

@@ -1,47 +1,26 @@
-// src/App.jsx
+import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import routes from "./routes/routes.jsx";
+import { useAuthStore } from "./store/authStore.js";
 import { useEffect } from "react";
-import { useAuthStore } from "./store/authStore";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Home from "./pages/HomePage";
-import ProtectedRoute from "./routes/ProtectedRoute";
+import { Toaster } from "react-hot-toast";
+import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
 
-export default function App() {
-  const { isCheckingAuth, checkAuth } = useAuthStore();
+function App() {
+    const { isCheckingAuth, checkAuth } = useAuthStore();
 
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+    useEffect(() => {
+      checkAuth();
+    }, [checkAuth]);
 
-
-  if (isCheckingAuth) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <p>Loading…</p>
-      </div>
-    );
-  }
+    if (isCheckingAuth) return <LoadingSpinner />;
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-
-        {/* Protected pages */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* fallback */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <RouterProvider router={routes} />
+      <Toaster />
+    </>
   );
 }
+
+export default App;
