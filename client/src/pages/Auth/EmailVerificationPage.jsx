@@ -9,20 +9,31 @@ const EmailVerificationPage = () => {
   const navigate = useNavigate();
   const { error, isLoading, verifyEmail } = useAuthStore();
 
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text');
+    const numbers = pastedData.replace(/[^0-9]/g, '').slice(0, 6).split('');
+    
+    const newCode = [...code];
+    numbers.forEach((num, index) => {
+      if (index < 6) {
+        newCode[index] = num;
+      }
+    });
+    
+    setCode(newCode);
+    // Focus the next empty input or the last input
+    const nextIdx = newCode.findIndex((c) => c === '') !== -1 
+      ? newCode.findIndex((c) => c === '')
+      : 5;
+    inputRefs.current[nextIdx]?.focus();
+  };
+
   const handleChange = (i, value) => {
     const newCode = [...code];
-    if (value.length > 1) {
-      // handle paste
-      const chars = value.slice(0, 6).split("");
-      for (let j = 0; j < 6; j++) newCode[j] = chars[j] || "";
-      setCode(newCode);
-      const nextIdx = newCode.findIndex((c) => c === "") || 5;
-      inputRefs.current[nextIdx]?.focus();
-    } else {
-      newCode[i] = value;
-      setCode(newCode);
-      if (value && i < 5) inputRefs.current[i + 1]?.focus();
-    }
+    newCode[i] = value;
+    setCode(newCode);
+    if (value && i < 5) inputRefs.current[i + 1]?.focus();
   };
 
   const handleKeyDown = (i, e) => {
@@ -72,6 +83,7 @@ const EmailVerificationPage = () => {
                 value={digit}
                 onChange={(e) => handleChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
+                onPaste={handlePaste}
                 className="w-12 h-12 text-center text-xl font-semibold bg-gray-50 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             ))}
