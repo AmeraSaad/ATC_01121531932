@@ -1,4 +1,3 @@
-// src/routes/routes.jsx
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
