@@ -4,10 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 
 export default function Login() {
-  const login = useAuthStore((s) => s.login);
-  const isLoading = useAuthStore((s) => s.isLoading);
-  const error = useAuthStore((s) => s.error);
   const navigate = useNavigate();
+  const { login, isLoading, error } = useAuthStore();
 
   const [form, setForm] = useState({ email: "", password: "" });
 

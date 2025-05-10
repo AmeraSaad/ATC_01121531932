@@ -8,12 +8,12 @@ import Home from "./pages/HomePage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 export default function App() {
-  const checkAuth = useAuthStore((state) => state.checkAuth);
-  const isCheckingAuth = useAuthStore((state) => state.isCheckingAuth);
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
+
 
   if (isCheckingAuth) {
     return (
