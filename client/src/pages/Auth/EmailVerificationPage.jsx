@@ -84,7 +84,7 @@ const EmailVerificationPage = () => {
                 onChange={(e) => handleChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
                 onPaste={handlePaste}
-                className="w-12 h-12 text-center text-xl font-semibold bg-gray-50 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-12 h-12 text-center text-xl font-semibold bg-gray-50 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             ))}
           </div>
