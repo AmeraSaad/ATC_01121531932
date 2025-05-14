@@ -32,15 +32,17 @@ const verifyTokenAndUserCheck = async(req, res, next) => {
 
 
 // Verify Token & Check if is Admin
-const verifyAndAdminCheck  = (req, res, next) => {
-    verifyTokenAndUserCheck(req, res, () => {
-    if (req.isAdmin) {
-      next();
-    } else {
-      return res.status(403).json({ message: "Forbidden - Admin access required" });
+const verifyAndAdminCheck = async (req, res, next) => {
+  try {
+    await verifyTokenAndUserCheck(req, res, () => {});
+    if (!req.isAdmin) {
+      return res.status(403).json({ success: false, message: "Forbidden - Admin access required" });
     }
-  });
-}
+    next();
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
 module.exports = {
   verifyTokenAndUserCheck,
