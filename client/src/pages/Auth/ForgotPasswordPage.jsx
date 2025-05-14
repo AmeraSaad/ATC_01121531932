@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
   return (
     <main className="flex-grow flex items-center justify-center bg-gray-100 min-h-screen">
       <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md space-y-6">
-        <h2 className="text-2xl font-bold text-center text-green-600">
+        <h2 className="text-2xl font-bold text-center text-orange-600">
           Forgot Password
         </h2>
 
@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="you@example.com"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent"
                 />
               </div>
 
@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
                 className={`w-full py-2 rounded text-white font-semibold ${
                   isLoading
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-green-600 hover:bg-green-700"
+                    : "bg-orange-600 hover:bg-orange-700"
                 }`}
               >
                 {isLoading ? "Sending…" : "Send Reset Link"}
@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
         ) : (
           <div className="text-center space-y-4">
             <div className="flex justify-center">
-              <MdEmail className="text-6xl text-green-500" />
+              <MdEmail className="text-6xl text-orange-500" />
             </div>
             <p className="text-gray-700 text-sm">
               If an account exists for{" "}
@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
           <button
             type="button"
             onClick={() => navigate("/login")}
-            className="text-green-600 hover:underline text-sm flex items-center justify-center"
+            className="text-orange-600 hover:underline text-sm flex items-center justify-center"
           >
             <MdKeyboardArrowLeft className="text-lg mr-1" />
             Back to Login

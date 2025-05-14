@@ -47,17 +47,17 @@ export default function LoginPage() {
           className="w-full mb-2 p-2 border rounded"
         />
 
-          {/* Forgot Password */}
-          <Link
-            to={"/forgot-password"}
-            className="text-sm text-gray-600 hover:underline cursor-pointer"
-          >
-            Forgot Password?
-          </Link>
-          
-          <button
+        {/* Forgot Password */}
+        <Link
+          to={"/forgot-password"}
+          className="text-sm text-gray-600 hover:underline cursor-pointer"
+        >
+          Forgot Password?
+        </Link>
+
+        <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 mt-2 rounded hover:bg-green-700"
+          className="w-full bg-orange-600 text-white py-2 mt-2 rounded hover:bg-orange-700"
           disabled={isLoading}
         >
           {isLoading ? "Logging in…" : "Log In"}

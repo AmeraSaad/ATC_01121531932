@@ -29,12 +29,12 @@ export default function ResetPasswordPage() {
   return (
     <main className="flex-grow flex items-center justify-center bg-gray-100 min-h-screen">
       <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md space-y-6">
-        <h2 className="text-2xl font-bold text-center text-green-600">
+        <h2 className="text-2xl font-bold text-center text-orange-600">
           Reset Password
         </h2>
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        {message && <p className="text-green-600 text-sm">{message}</p>}
+        {message && <p className="text-orange-600 text-sm">{message}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -48,7 +48,7 @@ export default function ResetPasswordPage() {
               placeholder="Enter new password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:green-600 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:orange-600 focus:border-transparent"
             />
           </div>
 
@@ -63,7 +63,7 @@ export default function ResetPasswordPage() {
               placeholder="Confirm new password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent"
             />
           </div>
 
@@ -73,7 +73,7 @@ export default function ResetPasswordPage() {
             className={`w-full py-2 rounded text-white font-semibold ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-600 hover:bg-green-700"
+                : "bg-orange-600 hover:bg-orange-700"
             }`}
           >
             {isLoading ? "Resetting..." : "Set New Password"}
@@ -84,7 +84,7 @@ export default function ResetPasswordPage() {
           <button
             type="button"
             onClick={() => navigate("/login")}
-            className="text-green-600 hover:underline text-sm flex items-center justify-center mx-auto"
+            className="text-orange-600 hover:underline text-sm flex items-center justify-center mx-auto"
           >
             <MdKeyboardArrowLeft className="text-lg mr-1" />
             Back to Login

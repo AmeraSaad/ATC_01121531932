@@ -84,7 +84,7 @@ const EmailVerificationPage = () => {
                 onChange={(e) => handleChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
                 onPaste={handlePaste}
-                className="w-12 h-12 text-center text-xl font-semibold bg-gray-50 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-12 h-12 text-center text-xl font-semibold bg-gray-50 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             ))}
           </div>
@@ -99,8 +99,8 @@ const EmailVerificationPage = () => {
               text-white font-semibold
               ${
                 isLoading || code.some((d) => !d)
-                  ? "bg-green-600 cursor-not-allowed"
-                  : "bg-green-600 hover:bg-green-700"
+                  ? "bg-orange-600 cursor-not-allowed"
+                  : "bg-orange-600 hover:bg-orange-700"
               }
             `}
           >
