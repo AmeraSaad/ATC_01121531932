@@ -1,6 +1,8 @@
 // server/controllers/event.controller.js
 const asyncHandler = require("express-async-handler");
+const mongoose     = require("mongoose"); 
 const { Event, validateEvent } = require("../models/event.model");
+const { Category } = require("../models/category.model");
 
 /**
  * @desc    Create new event
@@ -11,6 +13,16 @@ exports.createEvent = asyncHandler(async (req, res) => {
   const { error } = validateEvent(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
+  const { category: categoryId } = req.body;
+  
+  // 2) Verify category exists
+  if (!mongoose.isValidObjectId(categoryId)) {
+    return res.status(400).json({ message: "Invalid category ID" });
+  }
+  const category = await Category.findById(categoryId);
+  if (!category) {
+    return res.status(404).json({ message: "Category not found" });
+  }
 
   let imageUrls = [];
   if (req.files && req.files.length) {
@@ -23,6 +35,9 @@ exports.createEvent = asyncHandler(async (req, res) => {
     // createdBy: req.userId 
   });
   await event.save();
+
+  await event.populate("category", "name");
+
   res.status(201).json({ 
     success: true,
     message: "Event created successfully",
@@ -40,12 +55,14 @@ exports.getEvents = asyncHandler(async (req, res) => {
 
   //filter
   const filter = {};
-  if (category) {
-    filter.category = { $regex: new RegExp(category, "i") };
-  }
+  // if (category) {
+  //   filter.category = { $regex: new RegExp(category, "i") };
+  // }
+
   if (venue) {
     filter.venue = { $regex: new RegExp(venue, "i") };
   }
+  
   if (minPrice || maxPrice) {
     filter.price = {};
     if (minPrice) filter.price.$gte = Number(minPrice);
@@ -69,7 +86,7 @@ exports.getEvents = asyncHandler(async (req, res) => {
 
   const pages = Math.ceil(total / limit);
 
-  const events = await Event.find(filter).sort(sort).skip(skip).limit(limit);
+  const events = await Event.find(filter).sort(sort).skip(skip).limit(limit).populate("category", "name");
   res.json({
     success: true, 
     events,
@@ -88,7 +105,7 @@ exports.getEvents = asyncHandler(async (req, res) => {
  * @access  Public
  */
 exports.getEventById = asyncHandler(async (req, res) => {
-  const event = await Event.findById(req.params.id);
+  const event = await Event.findById(req.params.id).populate("category", "name");
   if (!event) return res.status(404).json({ message: "Event not found" });
   res.json({ 
     success: true, 
@@ -105,6 +122,11 @@ exports.updateEvent = asyncHandler(async (req, res) => {
   const { error } = validateEvent(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
+  const { category: categoryId } = req.body;
+  if (!mongoose.isValidObjectId(categoryId) || !await Category.exists({_id:categoryId})) {
+    return res.status(400).json({ message: "Invalid or missing category" });
+  }
+
   let imageUrls = req.body.images || []; 
   if (req.files && req.files.length) {
     imageUrls = imageUrls.concat(req.files.map(f => f.path));
@@ -114,7 +136,7 @@ exports.updateEvent = asyncHandler(async (req, res) => {
     req.params.id,
     { ...req.body, images: imageUrls },
     { new: true, runValidators: true }
-  );
+  ).populate("category", "name");
 
   if (!event){
     return res.status(404).json({ message: "Event not found" });

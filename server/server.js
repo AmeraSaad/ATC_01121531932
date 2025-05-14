@@ -7,6 +7,7 @@ const { notFound, errorHanlder } = require("./middleware/errors");
 const cookieParser = require('cookie-parser');
 const authRoutes = require("./routes/auth.routes");
 const eventRoutes = require("./routes/events.routes");
+const categoryRoutes = require("./routes/category.routes");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/events", eventRoutes);
+app.use("/api/v1/categories", categoryRoutes);
 
 // Error Hanlder Middleware
 app.use(notFound);

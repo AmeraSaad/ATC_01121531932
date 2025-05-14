@@ -18,10 +18,9 @@ const eventSchema = new mongoose.Schema(
       trim: true,
     },
     category: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
       required: true,
-      trim: true,
-      maxlength: 100,
     },
     date: {
       type: Date,
@@ -53,7 +52,7 @@ function validateEvent(event) {
   const schema = Joi.object({
     name: Joi.string().max(200).required(),
     description: Joi.string().required(),
-    category: Joi.string().max(100).required(),
+    category: Joi.string().required(), 
     date: Joi.date().required(),
     venue: Joi.string().max(200).required(),
     price: Joi.number().min(0).required(),
