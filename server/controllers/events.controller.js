@@ -29,11 +29,38 @@ exports.createEvent = asyncHandler(async (req, res) => {
  * @access  Public
  */
 exports.getEvents = asyncHandler(async (req, res) => {
+
+  const { category,venue , minPrice, maxPrice, sortOrder = "asc" } = req.query;
+
+  //filter
+  const filter = {};
+  if (category) {
+    filter.category = { $regex: new RegExp(category, "i") };
+  }
+
+  const total = await Event.countDocuments(filter);
+
+  // Pagination 
+  const curpage  = Math.max(1, parseInt(req.query.page) || 1);
+  const limit = Math.max(1, parseInt(req.query.limit) || 3);
+  const skip  = (curpage - 1) * limit;
   
-  const events = await Event.find().sort("date");
+
+  // Sorting
+  const sort = sortOrder === "desc" ? "-date" : "date";
+
+  const pages = Math.ceil(total / limit);
+
+  const events = await Event.find(filter).sort(sort).skip(skip).limit(limit);
   res.json({
     success: true, 
-    events
+    events,
+    meta: {
+      total,
+      pages,  
+      curpage,    
+      limit,   
+    }
   });
 });
 
