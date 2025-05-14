@@ -29,8 +29,7 @@ exports.createEvent = asyncHandler(async (req, res) => {
  * @access  Public
  */
 exports.getEvents = asyncHandler(async (req, res) => {
-
-  const { category,venue , minPrice, maxPrice, sortOrder = "asc" } = req.query;
+  const { category, venue, minPrice, maxPrice, sortBy = "date", sortOrder = "asc" } = req.query;
 
   //filter
   const filter = {};
@@ -50,12 +49,16 @@ exports.getEvents = asyncHandler(async (req, res) => {
 
   // Pagination 
   const curpage  = Math.max(1, parseInt(req.query.page) || 1);
-  const limit = Math.max(1, parseInt(req.query.limit) || 3);
+  const limit = Math.max(1, parseInt(req.query.limit) || 6);
   const skip  = (curpage - 1) * limit;
   
-
   // Sorting
-  const sort = sortOrder === "desc" ? "-date" : "date";
+  let sort = {};
+  if (sortBy === "date") {
+    sort.date = sortOrder === "desc" ? -1 : 1;
+  } else if (sortBy === "price") {
+    sort.price = sortOrder === "desc" ? -1 : 1;
+  }
 
   const pages = Math.ceil(total / limit);
 
