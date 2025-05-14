@@ -11,8 +11,15 @@ exports.createEvent = asyncHandler(async (req, res) => {
   const { error } = validateEvent(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
+
+  let imageUrls = [];
+  if (req.files && req.files.length) {
+    imageUrls = req.files.map(f => f.path);  // `path` is Cloudinary URL
+  }
+
   const event = new Event({ 
     ...req.body, 
+    images: imageUrls,
     // createdBy: req.userId 
   });
   await event.save();
@@ -98,9 +105,17 @@ exports.updateEvent = asyncHandler(async (req, res) => {
   const { error } = validateEvent(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
+   // 2) Handle new uploads
+  let imageUrls = req.body.images || []; 
+  if (req.files && req.files.length) {
+     // append new uploads
+    imageUrls = imageUrls.concat(req.files.map(f => f.path));
+  }
+
+   // 3) Update the event
   const event = await Event.findByIdAndUpdate(
     req.params.id,
-    { ...req.body },
+    { ...req.body, images: imageUrls },
     { new: true, runValidators: true }
   );
 
