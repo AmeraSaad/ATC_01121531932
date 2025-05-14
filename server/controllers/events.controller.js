@@ -37,6 +37,14 @@ exports.getEvents = asyncHandler(async (req, res) => {
   if (category) {
     filter.category = { $regex: new RegExp(category, "i") };
   }
+  if (venue) {
+    filter.venue = { $regex: new RegExp(venue, "i") };
+  }
+  if (minPrice || maxPrice) {
+    filter.price = {};
+    if (minPrice) filter.price.$gte = Number(minPrice);
+    if (maxPrice) filter.price.$lte = Number(maxPrice);
+  }
 
   const total = await Event.countDocuments(filter);
 
