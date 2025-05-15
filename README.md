@@ -17,8 +17,8 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    {
      "isAdmin": true
    }
-
 4- Save → Login with that user → now admin access enabled 
+
 ---
 
 ## 🚀 Features
