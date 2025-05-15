@@ -134,8 +134,9 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    CLOUDINARY_API_KEY= your_API_KEY
    CLOUDINARY_API_SECRET= ypur_API_SECRET
 
+---
 
-4. **Run** locally
+# 4. **Run** locally
 
     ```bash
      # Backend
