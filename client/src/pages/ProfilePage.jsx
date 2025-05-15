@@ -115,7 +115,7 @@ const ProfilePage = () => {
               <div className="text-center py-8">
                 <p className="text-gray-500 mb-4">You haven't booked any events yet.</p>
                 <Link 
-                  to="/events" 
+                  to="/" 
                   className="text-orange-600 hover:text-orange-700 font-medium"
                 >
                   Browse Events
