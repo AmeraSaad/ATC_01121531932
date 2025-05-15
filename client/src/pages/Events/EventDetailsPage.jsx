@@ -1,35 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { useBookingStore } from '../../store/bookingStore';
 import { useAuthStore } from '../../store/authStore';
+import { useEventStore } from '../../store/eventStore';
 import { toast } from 'react-toastify';
 
 const EventDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [event, setEvent] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(0);
+  const { event, getEventById, isLoading, error } = useEventStore();
   const { isAuthenticated } = useAuthStore();
   const { bookEvent, cancelBooking, isEventBooked, getUserBookings } = useBookingStore();
+  const [selectedImage, setSelectedImage] = useState(0);
   const isBooked = event ? isEventBooked(event._id) : false;
 
   useEffect(() => {
-    const fetchEventDetails = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/api/v1/events/${id}`);
-        setEvent(response.data.event);
-        setIsLoading(false);
-      } catch (err) {
-        setError(err.response?.data?.message || 'Error fetching event details');
-        setIsLoading(false);
-      }
-    };
-
-    fetchEventDetails();
+    getEventById(id);
   }, [id]);
 
   useEffect(() => {

@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import axios from "axios";
+const Base_URL = import.meta.env.VITE_API_URL;
 
-const API_URL = "http://localhost:5000/api/v1/bookings";
+const API_URL = (`${Base_URL}/api/v1/bookings`);
 
 export const useBookingStore = create((set) => ({
   bookings: [],

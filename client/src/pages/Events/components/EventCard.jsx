@@ -47,7 +47,7 @@ const EventCard = ({ event }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-[400px]">
       {event.images[0] && (
         <img
           src={event.images[0]}
@@ -55,7 +55,7 @@ const EventCard = ({ event }) => {
           className="w-full h-48 object-cover"
         />
       )}
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-grow">
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-semibold text-gray-800">{event.name}</h3>
           <span className="px-2 py-1 text-xs font-medium text-gray-700 rounded-full border border-gray-300 text-center truncate max-w-[120px]">
@@ -67,36 +67,40 @@ const EventCard = ({ event }) => {
         </p>
         <div className="flex justify-between items-center mt-1">
           <p className="text-gray-600 text-sm">{event.venue}</p>
-          <button
-            onClick={isBooked ? handleCancel : handleBook}
-            className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
-              isBooked
-                ? "bg-green-100 text-green-700 hover:bg-red-100 hover:text-red-700 group"
-                : "bg-orange-600 text-white hover:bg-orange-700"
-            }`}
-          >
-            {isBooked ? (
-              <>
-                <span className="group-hover:hidden">
-                  Booked
-                </span>
-                <span className="hidden group-hover:inline ">
-                  Cancel
-                </span>
-              </>
-            ) : (
-              "Book"
-            )}
-          </button>
         </div>
-        <div className="flex justify-between items-center mt-3">
-          <p className="text-orange-600 font-semibold">${event.price}</p>
-          <Link
-            to={`/events/${event._id}`}
-            className="text-sm text-orange-600 hover:text-orange-700 hover:underline underline-offset-4 transition-all"
-          >
-            View Details
-          </Link>
+        <div className="mt-auto pt-4 border-t border-gray-100">
+          <div className="flex justify-between items-center">
+            <p className="text-orange-600 font-semibold">${event.price}</p>
+            <div className="flex items-center gap-3">
+              <Link
+                to={`/events/${event._id}`}
+                className="text-sm text-orange-600 hover:text-orange-700 hover:underline underline-offset-4 transition-all"
+              >
+                View Details
+              </Link>
+              <button
+                onClick={isBooked ? handleCancel : handleBook}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                  isBooked
+                    ? "bg-green-100 text-green-700 hover:bg-red-100 hover:text-red-700 group"
+                    : "bg-orange-600 text-white hover:bg-orange-700"
+                }`}
+              >
+                {isBooked ? (
+                  <>
+                    <span className="group-hover:hidden">
+                      Booked
+                    </span>
+                    <span className="hidden group-hover:inline ">
+                      Cancel
+                    </span>
+                  </>
+                ) : (
+                  "Book"
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

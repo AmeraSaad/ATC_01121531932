@@ -48,7 +48,6 @@ const routes = createBrowserRouter([
           <ProtectedRoute>{withSuspense(<ProfilePage />)}</ProtectedRoute>
         ),
       },
-      // Admin Routes
       {
         path: "admin",
         element: (

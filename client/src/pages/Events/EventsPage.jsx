@@ -4,6 +4,8 @@ import axios from "axios";
 import EventCards from "./components/EventCards";
 import EventFilters from "./components/EventFilters";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const EventsPage = () => {
   const { events, meta, isLoading, error, getEvents } = useEventStore();
   const [categories, setCategories] = useState([]);
@@ -29,9 +31,7 @@ const EventsPage = () => {
     // Fetch categories
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/categories"
-        );
+        const response = await axios.get(`${API_URL}/api/v1/categories`);
         setCategories(response.data.categories);
       } catch (err) {
         console.error("Error fetching categories:", err);

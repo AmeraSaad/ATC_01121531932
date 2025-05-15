@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/v1/events";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const useEventStore = create((set) => ({
   events: [],
@@ -19,7 +19,7 @@ export const useEventStore = create((set) => ({
   getEvents: async (filters = {}) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(API_URL, { params: filters });
+      const response = await axios.get(`${API_URL}/api/v1/events`, { params: filters });
       set({
         events: response.data.events,
         meta: response.data.meta,
@@ -38,7 +38,7 @@ export const useEventStore = create((set) => ({
   getEventById: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/${id}`);
+      const response = await axios.get(`${API_URL}/api/v1/events/${id}`);
       set({
         event: response.data.event,
         isLoading: false,
@@ -67,7 +67,7 @@ export const useEventStore = create((set) => ({
         }
       });
 
-      const response = await axios.post(API_URL, formData, {
+      const response = await axios.post(`${API_URL}/api/v1/events`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -101,7 +101,7 @@ export const useEventStore = create((set) => ({
         }
       });
 
-      const response = await axios.put(`${API_URL}/${id}`, formData, {
+      const response = await axios.put(`${API_URL}/api/v1/events/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -127,7 +127,7 @@ export const useEventStore = create((set) => ({
   deleteEvent: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${API_URL}/api/v1/events/${id}`);
       set({
         events: useEventStore.getState().events.filter(event => event._id !== id),
         isLoading: false,

@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import CloseIcon from "../../../components/icons/CloseIcon";
 import UploadIcon from "../../../components/icons/UploadIcon";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
   const { createEvent, updateEvent } = useEventStore();
@@ -53,7 +54,7 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/v1/categories");
+      const response = await axios.get(`${API_URL}/api/v1/categories`);
       setCategories(response.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -70,7 +71,7 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
 
     setIsCreatingCategory(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/v1/categories", {
+      const response = await axios.post(`${API_URL}/api/v1/categories`, {
         name: newCategory.trim()
       });
       

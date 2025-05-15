@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/v1/auth";
+const Base_URL = import.meta.env.VITE_API_URL;
+
+const API_URL = (`${Base_URL}/api/v1/auth`);
 
 axios.defaults.withCredentials = true;
 
