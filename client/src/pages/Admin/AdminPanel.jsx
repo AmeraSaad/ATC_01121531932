@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useEventStore } from "../../store/eventStore";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
-import CreateEvent from "./components/CreateEvent";
+import CreateEvent from "./components/EventWindow";
 import { Toaster } from "react-hot-toast";
 
 const AdminPanel = () => {
@@ -109,7 +109,6 @@ const AdminPanel = () => {
         {activeTab === "dashboard" && (
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
               <div className="bg-orange-50 p-6 rounded-lg">
                 <h3 className="text-lg font-medium text-orange-800">
                   Total Events
@@ -152,7 +151,7 @@ const AdminPanel = () => {
               </h2>
               <button
                 onClick={() => setIsCreateModalOpen(true)}
-                className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 cursor-pointer"
               >
                 Create New Event
               </button>
@@ -217,13 +216,13 @@ const AdminPanel = () => {
                         <div className="flex space-x-3">
                           <button
                             onClick={() => handleEditEvent(event)}
-                            className="text-orange-600 hover:text-orange-900"
+                            className="text-orange-600 hover:text-orange-900 cursor-pointer"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteEvent(event._id)}
-                            className="text-red-600 hover:text-red-900"
+                            className="text-red-600 hover:text-red-900 cursor-pointer"
                           >
                             Delete
                           </button>

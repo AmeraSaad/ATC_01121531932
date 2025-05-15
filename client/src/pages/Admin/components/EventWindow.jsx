@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useEventStore } from "../../../store/eventStore";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import CloseIcon from "../../../components/icons/CloseIcon";
+import UploadIcon from "../../../components/icons/UploadIcon";
 
 const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
   const { createEvent, updateEvent } = useEventStore();
@@ -194,23 +196,13 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
       <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold text-gray-900">
-            {eventToEdit ? 'Edit Event' : 'Create New Event'}
+            {eventToEdit ? "Edit Event" : "Create New Event"}
           </h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <CloseIcon className="h-5 w-5 cursor-pointer" />
           </button>
         </div>
 
@@ -338,20 +330,7 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
 
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-orange-500 transition-colors">
             <div className="text-center">
-              <svg
-                className="mx-auto h-10 w-10 text-gray-400"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 48 48"
-                aria-hidden="true"
-              >
-                <path
-                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <UploadIcon className="mx-auto h-10 w-10 text-gray-400" />
               <div className="mt-3 flex text-sm text-gray-600 justify-center items-center">
                 <label
                   htmlFor="file-upload"
@@ -382,7 +361,9 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
             {/* Image Previews */}
             {imagePreviews.length > 0 && (
               <div className="mt-4">
-                <h4 className="text-xs font-medium text-gray-700 mb-2">Selected Images:</h4>
+                <h4 className="text-xs font-medium text-gray-700 mb-2">
+                  Selected Images:
+                </h4>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                   {imagePreviews.map((preview, index) => (
                     <div key={index} className="relative group">
@@ -396,17 +377,7 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
                         onClick={() => removeImage(index)}
                         className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
-                        <svg
-                          className="h-3 w-3"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <CloseIcon className="h-3 w-3" />
                       </button>
                     </div>
                   ))}
@@ -419,18 +390,22 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors text-sm"
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors text-sm cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-colors text-sm"
+              className="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-colors text-sm cursor-pointer"
             >
-              {isLoading 
-                ? (eventToEdit ? "Updating..." : "Creating...") 
-                : (eventToEdit ? "Update Event" : "Create Event")}
+              {isLoading
+                ? eventToEdit
+                  ? "Updating..."
+                  : "Creating..."
+                : eventToEdit
+                ? "Update Event"
+                : "Create Event"}
             </button>
           </div>
         </form>
@@ -440,22 +415,14 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60]">
             <div className="bg-white rounded-lg p-6 max-w-md w-full">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-900">Create New Category</h3>
+                <h3 className="text-lg font-medium text-gray-900">
+                  Create New Category
+                </h3>
                 <button
                   onClick={() => setIsCategoryModalOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <CloseIcon className="h-5 w-5" />
                 </button>
               </div>
 
