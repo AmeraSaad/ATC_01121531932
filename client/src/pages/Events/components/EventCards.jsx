@@ -1,5 +1,6 @@
 import React from 'react';
 import LoadingSpinner from '../../../components/common/LoadingSpinner';
+import EventCard from './EventCard';
 
 const EventCards = ({ events, meta, isLoading, error, handlePageChange }) => {
   const renderPagination = () => {
@@ -34,32 +35,9 @@ const EventCards = ({ events, meta, isLoading, error, handlePageChange }) => {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hover:shadow-lg transition-shadow">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => (
-              <div
-                key={event._id}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
-              >
-                {event.images[0] && (
-                  <img
-                    src={event.images[0]}
-                    alt={event.name}
-                    className="w-full h-48 object-cover"
-                  />
-                )}
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {event.name}
-                  </h3>
-                  <p className="text-gray-600 text-sm mt-1">
-                    {new Date(event.date).toLocaleDateString()}
-                  </p>
-                  <p className="text-gray-600 text-sm mt-1">{event.venue}</p>
-                  <p className="text-orange-600 font-semibold mt-2">
-                    ${event.price}
-                  </p>
-                </div>
-              </div>
+              <EventCard key={event._id} event={event} />
             ))}
           </div>
 

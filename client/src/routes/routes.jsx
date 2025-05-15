@@ -13,6 +13,7 @@ import LoginPage from "../pages/Auth/LoginPage";
 import SignupPage from "../pages/Auth/SignupPage";
 import ProfilePage from "../pages/ProfilePage";
 import AdminPanel from "../pages/Admin/AdminPanel";
+import EventDetailsPage from "../pages/Events/EventDetailsPage";
 
 // Lazy-loaded pages
 // const LoginPage = lazy(() => import("../pages/Auth/LoginPage"));
@@ -36,6 +37,10 @@ const routes = createBrowserRouter([
       {
         path: "",
         element: <HomePage />,
+      },
+      {
+        path: "events/:id",
+        element: <EventDetailsPage />,
       },
       {
         path: "profile",
