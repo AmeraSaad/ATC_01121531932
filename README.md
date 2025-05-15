@@ -108,6 +108,11 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    ```bash
    git clone https://github.com/your-username/event-booking-system.git
    cd event-booking-system
+1. **Clone** the repo
+
+   ```bash
+   git clone https://github.com/your-username/event-booking-system.git
+   cd event-booking-system
 2- Install dependencies
 
    ```bash
