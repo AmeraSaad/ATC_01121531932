@@ -4,7 +4,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { useBookingStore } from '../../store/bookingStore';
 import { useAuthStore } from '../../store/authStore';
 import { useEventStore } from '../../store/eventStore';
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 
 const EventDetailsPage = () => {
   const { id } = useParams();

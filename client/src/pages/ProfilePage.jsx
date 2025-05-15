@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/authStore";
 import { useBookingStore } from "../store/bookingStore";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const ProfilePage = () => {
   const { user } = useAuthStore();
