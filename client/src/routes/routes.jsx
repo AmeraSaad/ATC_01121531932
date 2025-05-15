@@ -1,20 +1,24 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import AdminProtectedRoute from "./AdminProtectedRoute";
+import RedirectAuthenticatedUser from "./RedirectAuthenticatedUser";
 import MainLayout from "../layouts/MainLayout";
+import AuthLayout from "../layouts/AuthLayout";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import ErrorComp from "../components/common/ErrorComp";
-import RedirectAuthenticatedUser from "./RedirectAuthenticatedUser";
 import EmailVerificationPage from "../pages/Auth/EmailVerificationPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/Auth/LoginPage";
 import SignupPage from "../pages/Auth/SignupPage";
+import ProfilePage from "../pages/ProfilePage";
+import AdminPanel from "../pages/AdminPanel";
 
 // Lazy-loaded pages
 // const LoginPage = lazy(() => import("../pages/Auth/LoginPage"));
 // const SignupPage = lazy(() => import("../pages/Auth/SignupPage"));
 // const HomePage = lazy(() => import("../pages/HomePage"));
-const ForgotPasswordPage = lazy(() =>import("../pages/Auth/ForgotPasswordPage"));
+const ForgotPasswordPage = lazy(() => import("../pages/Auth/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("../pages/Auth/ResetPasswordPage"));
 
 const withSuspense = (element) => (
@@ -29,12 +33,31 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "",
+        element: <HomePage />,
+      },
+      {
+        path: "profile",
         element: (
           <ProtectedRoute>
-            <HomePage />
+            {withSuspense(<ProfilePage />)}
           </ProtectedRoute>
         ),
       },
+      // Admin Routes
+      {
+        path: "admin",
+        element: (
+          <AdminProtectedRoute>
+            {withSuspense(<AdminPanel />)}
+          </AdminProtectedRoute>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <AuthLayout />,
+    children: [
       {
         path: "login",
         element: (
@@ -52,7 +75,7 @@ const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/verify-email",
+        path: "verify-email",
         element: (
           <RedirectAuthenticatedUser>
             <EmailVerificationPage />
@@ -60,11 +83,11 @@ const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/forgot-password",
+        path: "forgot-password",
         element: withSuspense(<ForgotPasswordPage />),
       },
       {
-        path: "/reset-password/:token",
+        path: "reset-password/:token",
         element: (
           <RedirectAuthenticatedUser>
             <ResetPasswordPage />

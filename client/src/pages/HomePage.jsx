@@ -1,26 +1,21 @@
-// src/pages/Home.jsx
-import { useAuthStore } from "../store/authStore";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import EventsPage from './EventsPage'
 
-export default function Home() {
-  const user = useAuthStore((s) => s.user);
-  const logout = useAuthStore((s) => s.logout);
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login");
-  };
-
+const HomePage = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-3xl mb-4">Welcome, {user.username}!</h1>
-      <button
-        onClick={handleLogout}
-        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-      >
-        Log Out
-      </button>
+    <div>
+      {/* Hero Section */}
+      <div className=" text-gray-600 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-bold mb-4">Discover Amazing Events</h1>
+          <p className="text-xl">Find and book tickets for the best events in your area</p>
+        </div>
+      </div>
+
+      {/* Events Section */}
+      <EventsPage />
     </div>
-  );
+  )
 }
+
+export default HomePage
