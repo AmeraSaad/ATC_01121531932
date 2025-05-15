@@ -67,6 +67,8 @@ CLOUDINARY_CLOUD_NAME= your_CLOUD_NAME
 CLOUDINARY_API_KEY= your_API_KEY
 CLOUDINARY_API_SECRET= ypur_API_SECRET
 
+---
+
 ## 🧪 API Endpoints
 
 ### 🔐 Auth (`/api/v1/auth`)
