@@ -8,7 +8,6 @@ export const useBookingStore = create((set) => ({
   isLoading: false,
   error: null,
 
-  // Book an event
   bookEvent: async (eventId) => {
     set({ isLoading: true, error: null });
     try {
@@ -27,7 +26,6 @@ export const useBookingStore = create((set) => ({
     }
   },
 
-  // Get user's bookings
   getUserBookings: async () => {
     set({ isLoading: true, error: null });
     try {
@@ -45,7 +43,6 @@ export const useBookingStore = create((set) => ({
     }
   },
 
-  // Cancel a booking
   cancelBooking: async (bookingId) => {
     set({ isLoading: true, error: null });
     try {
