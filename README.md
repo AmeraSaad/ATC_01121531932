@@ -7,16 +7,16 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
 - Backend API: https://vercel.com/amerasaads-projects/event-booking-system
   
 ---
-How to Login as Admin
-1- Open MongoDB → go to your users collection
+### 🔐 How to Login as Admin
 
-2- Find the user you want (e.g. by email)
+1. Open MongoDB and go to the `users` collection  
+2. Find the user document (e.g., by email)  
+3. Set the `isAdmin` field to `true`:
 
-3- Edit the document → set:
-   "isAdmin": true
-
-4- Save → Login with that user → now admin access enabled
-
+   ```json
+   {
+     "isAdmin": true
+   }
 ---
 
 ## 🚀 Features
