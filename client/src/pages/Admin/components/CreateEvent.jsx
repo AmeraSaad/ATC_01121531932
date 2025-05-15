@@ -126,15 +126,15 @@ const CreateEvent = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Create New Event</h2>
+      <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-bold text-gray-900">Create New Event</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
           >
             <svg
-              className="h-6 w-6"
+              className="h-5 w-5"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -147,10 +147,10 @@ const CreateEvent = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Event Name
               </label>
               <input
@@ -160,12 +160,12 @@ const CreateEvent = ({ isOpen, onClose }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter event name"
-                className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors"
+                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Category
               </label>
               <select
@@ -173,7 +173,7 @@ const CreateEvent = ({ isOpen, onClose }) => {
                 value={formData.category}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors"
+                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
               >
                 <option value="">Select a category</option>
                 {categories.map((category) => (
@@ -185,7 +185,7 @@ const CreateEvent = ({ isOpen, onClose }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Date
               </label>
               <input
@@ -194,12 +194,12 @@ const CreateEvent = ({ isOpen, onClose }) => {
                 value={formData.date}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors"
+                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Time
               </label>
               <input
@@ -208,12 +208,12 @@ const CreateEvent = ({ isOpen, onClose }) => {
                 value={formData.time}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors"
+                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Venue
               </label>
               <input
@@ -223,12 +223,12 @@ const CreateEvent = ({ isOpen, onClose }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter venue location"
-                className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors"
+                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Price ($)
               </label>
               <input
@@ -240,13 +240,13 @@ const CreateEvent = ({ isOpen, onClose }) => {
                 min="0"
                 step="0.01"
                 placeholder="Enter price"
-                className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors"
+                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Description
             </label>
             <textarea
@@ -255,15 +255,15 @@ const CreateEvent = ({ isOpen, onClose }) => {
               onChange={handleChange}
               required
               placeholder="Enter event description"
-              rows="4"
-              className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors"
+              rows="3"
+              className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
             />
           </div>
 
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-orange-500 transition-colors">
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-orange-500 transition-colors">
             <div className="text-center">
               <svg
-                className="mx-auto h-12 w-12 text-gray-400"
+                className="mx-auto h-10 w-10 text-gray-400"
                 stroke="currentColor"
                 fill="none"
                 viewBox="0 0 48 48"
@@ -276,7 +276,7 @@ const CreateEvent = ({ isOpen, onClose }) => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <div className="mt-4 flex text-sm text-gray-600 justify-center items-center">
+              <div className="mt-3 flex text-sm text-gray-600 justify-center items-center">
                 <label
                   htmlFor="file-upload"
                   className="relative cursor-pointer bg-white rounded-md font-medium text-orange-600 hover:text-orange-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-orange-500"
@@ -293,11 +293,11 @@ const CreateEvent = ({ isOpen, onClose }) => {
                 </label>
                 <p className="pl-1">or drag and drop</p>
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 mt-1">
                 PNG, JPG, GIF up to 10MB each
               </p>
               {formData.images.length > 0 && (
-                <p className="text-sm text-gray-600 mt-2">
+                <p className="text-xs text-gray-600 mt-1">
                   {formData.images.length} image(s) selected
                 </p>
               )}
@@ -305,23 +305,23 @@ const CreateEvent = ({ isOpen, onClose }) => {
 
             {/* Image Previews */}
             {imagePreviews.length > 0 && (
-              <div className="mt-6">
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Selected Images:</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              <div className="mt-4">
+                <h4 className="text-xs font-medium text-gray-700 mb-2">Selected Images:</h4>
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                   {imagePreviews.map((preview, index) => (
                     <div key={index} className="relative group">
                       <img
                         src={preview}
                         alt={`Preview ${index + 1}`}
-                        className="h-24 w-24 object-cover rounded-lg"
+                        className="h-20 w-20 object-cover rounded-lg"
                       />
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <svg
-                          className="h-4 w-4"
+                          className="h-3 w-3"
                           fill="none"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -339,18 +339,18 @@ const CreateEvent = ({ isOpen, onClose }) => {
             )}
           </div>
 
-          <div className="flex justify-end space-x-4 pt-4">
+          <div className="flex justify-end space-x-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors"
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors text-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-3 border border-transparent rounded-lg shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-colors"
+              className="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-colors text-sm"
             >
               {isLoading ? "Creating..." : "Create Event"}
             </button>
