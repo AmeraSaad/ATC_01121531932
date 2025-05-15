@@ -108,14 +108,6 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    ```bash
    git clone https://github.com/your-username/event-booking-system.git
    cd event-booking-system
-2. **Install** dependencies
-
-    ```bash
-    # Backend
-    cd server && npm install
-  
-   # Frontend
-   cd ../client && npm install
 
 3- **Configure** environment variables
 
@@ -133,10 +125,20 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    CLOUDINARY_CLOUD_NAME= your_CLOUD_NAME
    CLOUDINARY_API_KEY= your_API_KEY
    CLOUDINARY_API_SECRET= ypur_API_SECRET
+2. **Install** dependencies
+
+    ```bash
+    # Backend
+    cd server && npm install
+  
+   # Frontend
+   cd ../client && npm install
+
+
 
 ---
 
-# 4. **Run** locally
+4. **Run** locally
 
     ```bash
      # Backend
