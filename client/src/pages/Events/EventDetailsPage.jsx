@@ -30,9 +30,8 @@ const EventDetailsPage = () => {
   if (!event) return <div className="text-center mt-8">Event not found</div>;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 ">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Image Gallery */}
         <div className="relative h-52">
           {event.images && event.images.length > 0 ? (
             <img
@@ -47,7 +46,6 @@ const EventDetailsPage = () => {
           )}
         </div>
 
-        {/* Thumbnail Gallery */}
         {event.images && event.images.length > 1 && (
           <div className="p-3 bg-gray-50">
             <div className="flex gap-2 overflow-x-auto pb-1">
@@ -57,8 +55,8 @@ const EventDetailsPage = () => {
                   onClick={() => setSelectedImage(index)}
                   className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
                     selectedImage === index
-                      ? 'border-orange-600'
-                      : 'border-transparent hover:border-gray-300'
+                      ? "border-orange-600"
+                      : "border-transparent hover:border-gray-300"
                   }`}
                 >
                   <img
@@ -72,7 +70,6 @@ const EventDetailsPage = () => {
           </div>
         )}
 
-        {/* Event Details */}
         <div className="p-4">
           <div className="flex justify-between items-start mb-3">
             <div>
@@ -82,30 +79,39 @@ const EventDetailsPage = () => {
               </p>
             </div>
             <span className="px-2 py-1 text-xs font-medium text-gray-700 rounded-full border border-gray-300">
-              {event.category?.name || 'Uncategorized'}
+              {event.category?.name || "Uncategorized"}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Left Column */}
-            <div>
-              <div className="mb-4">
-                <h2 className="text-lg font-semibold text-gray-900 mb-1">Description</h2>
-                <p className="text-gray-600 text-sm">{event.description}</p>
-              </div>
-
-              <div className="mb-4">
-                <h2 className="text-lg font-semibold text-gray-900 mb-1">Venue</h2>
-                <p className="text-gray-600 text-sm">{event.venue}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2 space-y-4 pb-5">
+              <div>
+                <div className="my-2">
+                  <h2 className="text-lg font-semibold text-gray-900 my-1">
+                    Venue
+                  </h2>
+                  <p className="text-gray-600 text-sm">{event.venue}</p>
+                </div>
+                <h2 className="text-lg font-semibold text-gray-900 mb-2">
+                  Description
+                </h2>
+                <div className="max-h-40 overflow-y-auto pr-2 custom-scrollbar">
+                  <p className="text-gray-600 text-sm break-words whitespace-pre-wrap p-1">
+                    {event.description}
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Right Column */}
-            <div>
+            <div className="md:col-span-1">
               <div className="bg-gray-50 rounded-lg p-4">
                 <div className="mb-3">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-1">Price</h2>
-                  <p className="text-xl font-bold text-orange-600">${event.price}</p>
+                  <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                    Price
+                  </h2>
+                  <p className="text-xl font-bold text-orange-600">
+                    ${event.price}
+                  </p>
                 </div>
 
                 <button className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors">
@@ -116,6 +122,23 @@ const EventDetailsPage = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+      `}</style>
     </div>
   );
 };
