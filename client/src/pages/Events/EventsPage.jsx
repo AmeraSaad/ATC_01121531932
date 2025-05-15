@@ -1,50 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { useEventStore } from '../store/eventStore';
-import LoadingSpinner from '../components/common/LoadingSpinner';
+import React, { useEffect, useState } from "react";
+import { useEventStore } from "../../store/eventStore";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import axios from "axios";
 
 const EventsPage = () => {
   const { events, meta, isLoading, error, getEvents } = useEventStore();
+  const [categories, setCategories] = useState([]);
   const [filters, setFilters] = useState({
     page: 1,
     limit: 6,
-    category: '',
-    venue: '',
-    minPrice: '',
-    maxPrice: '',
-    sortBy: 'date',
-    sortOrder: 'asc'
+    category: "",
+    venue: "",
+    minPrice: "",
+    maxPrice: "",
+    sortBy: "date",
+    sortOrder: "asc",
   });
 
   // Local state for input values
   const [inputValues, setInputValues] = useState({
-    venue: '',
-    minPrice: '',
-    maxPrice: ''
+    venue: "",
+    minPrice: "",
+    maxPrice: "",
   });
+
+  useEffect(() => {
+    // Fetch categories
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/categories"
+        );
+        setCategories(response.data.categories);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     getEvents(filters);
   }, [filters]);
 
   const handlePageChange = (page) => {
-    setFilters(prev => ({ ...prev, page }));
+    setFilters((prev) => ({ ...prev, page }));
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setInputValues(prev => ({ ...prev, [name]: value }));
+    setInputValues((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       const { name, value } = e.target;
-      setFilters(prev => ({ ...prev, [name]: value, page: 1 }));
+      setFilters((prev) => ({ ...prev, [name]: value, page: 1 }));
     }
   };
 
   const handleSortChange = (e) => {
     const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCategoryChange = (categoryId) => {
+    console.log("Selected category:", categoryId); // Debug log
+    setFilters((prev) => ({ ...prev, category: categoryId, page: 1 }));
   };
 
   const renderPagination = () => {
@@ -56,8 +78,8 @@ const EventsPage = () => {
           onClick={() => handlePageChange(i)}
           className={`px-3 py-1 rounded-md ${
             meta.curpage === i
-              ? 'bg-orange-600 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-orange-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`}
         >
           {i}
@@ -71,9 +93,37 @@ const EventsPage = () => {
   if (error) return <div className="text-red-500 text-center">{error}</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+      {/* Category Filter */}
+      <div className="mb-8">
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => handleCategoryChange("")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              !filters.category
+                ? "bg-orange-600 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            All Categories
+          </button>
+          {categories.map((category) => (
+            <button
+              key={category._id}
+              onClick={() => handleCategoryChange(category._id)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filters.category === category._id
+                  ? "bg-orange-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="flex gap-8">
-        
         <div className="flex-1">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => (
@@ -128,7 +178,7 @@ const EventsPage = () => {
         <div className="w-64 space-y-6">
           <div className="bg-white p-4 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold mb-4">Filters</h3>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Venue

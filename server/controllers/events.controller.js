@@ -55,9 +55,9 @@ exports.getEvents = asyncHandler(async (req, res) => {
 
   //filter
   const filter = {};
-  // if (category) {
-  //   filter.category = { $regex: new RegExp(category, "i") };
-  // }
+  if (category) {
+    filter.category = category; 
+  }
 
   if (venue) {
     filter.venue = { $regex: new RegExp(venue, "i") };
@@ -86,7 +86,12 @@ exports.getEvents = asyncHandler(async (req, res) => {
 
   const pages = Math.ceil(total / limit);
 
-  const events = await Event.find(filter).sort(sort).skip(skip).limit(limit).populate("category", "name");
+  const events = await Event.find(filter)
+    .sort(sort)
+    .skip(skip)
+    .limit(limit)
+    .populate("category", "name");
+
   res.json({
     success: true, 
     events,
