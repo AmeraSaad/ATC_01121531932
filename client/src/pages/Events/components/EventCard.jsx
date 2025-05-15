@@ -1,7 +1,51 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useBookingStore } from '../../../store/bookingStore';
+import { useAuthStore } from '../../../store/authStore';
+import { toast } from 'react-toastify';
 
 const EventCard = ({ event }) => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
+  const { bookEvent, cancelBooking, isEventBooked, getUserBookings } = useBookingStore();
+  const isBooked = isEventBooked(event._id);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getUserBookings();
+    }
+  }, [isAuthenticated]);
+
+  const handleBook = async (e) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      await bookEvent(event._id);
+      toast.success('Event booked successfully!');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Error booking event');
+    }
+  };
+
+  const handleCancel = async (e) => {
+    e.preventDefault();
+    try {
+      const booking = useBookingStore.getState().bookings.find(
+        (b) => b.event._id === event._id
+      );
+      if (booking) {
+        await cancelBooking(booking._id);
+        toast.success('Booking cancelled successfully!');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Error cancelling booking');
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       {event.images[0] && (
@@ -21,7 +65,30 @@ const EventCard = ({ event }) => {
         <p className="text-gray-600 text-sm mt-1">
           {new Date(event.date).toLocaleDateString()}
         </p>
-        <p className="text-gray-600 text-sm mt-1">{event.venue}</p>
+        <div className="flex justify-between items-center mt-1">
+          <p className="text-gray-600 text-sm">{event.venue}</p>
+          <button
+            onClick={isBooked ? handleCancel : handleBook}
+            className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+              isBooked
+                ? "bg-green-100 text-green-700 hover:bg-red-100 hover:text-red-700 group"
+                : "bg-orange-600 text-white hover:bg-orange-700"
+            }`}
+          >
+            {isBooked ? (
+              <>
+                <span className="group-hover:hidden">
+                  Booked
+                </span>
+                <span className="hidden group-hover:inline ">
+                  Cancel
+                </span>
+              </>
+            ) : (
+              "Book"
+            )}
+          </button>
+        </div>
         <div className="flex justify-between items-center mt-3">
           <p className="text-orange-600 font-semibold">${event.price}</p>
           <Link

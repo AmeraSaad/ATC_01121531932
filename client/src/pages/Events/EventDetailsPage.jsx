@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { useBookingStore } from '../../store/bookingStore';
+import { useAuthStore } from '../../store/authStore';
+import { toast } from 'react-toastify';
 
 const EventDetailsPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
+  const { isAuthenticated } = useAuthStore();
+  const { bookEvent, cancelBooking, isEventBooked, getUserBookings } = useBookingStore();
+  const isBooked = event ? isEventBooked(event._id) : false;
 
   useEffect(() => {
     const fetchEventDetails = async () => {
@@ -24,6 +31,40 @@ const EventDetailsPage = () => {
 
     fetchEventDetails();
   }, [id]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getUserBookings();
+    }
+  }, [isAuthenticated]);
+
+  const handleBook = async () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      await bookEvent(id);
+      toast.success('Event booked successfully!');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Error booking event');
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      const booking = useBookingStore.getState().bookings.find(
+        (b) => b.event._id === id
+      );
+      if (booking) {
+        await cancelBooking(booking._id);
+        toast.success('Booking cancelled successfully!');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Error cancelling booking');
+    }
+  };
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <div className="text-red-500 text-center mt-8">{error}</div>;
@@ -114,8 +155,22 @@ const EventDetailsPage = () => {
                   </p>
                 </div>
 
-                <button className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors">
-                  Book Now
+                <button
+                  onClick={isBooked ? handleCancel : handleBook}
+                  className={`w-full py-2 px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                    isBooked
+                      ? "bg-green-100 text-green-700 hover:bg-red-100 hover:text-red-700 group"
+                      : "bg-orange-600 text-white hover:bg-orange-700"
+                  }`}
+                >
+                  {isBooked ? (
+                    <>
+                      <span className="group-hover:hidden">Booked</span>
+                      <span className="hidden group-hover:inline">Cancel</span>
+                    </>
+                  ) : (
+                    "Book Now"
+                  )}
                 </button>
               </div>
             </div>
