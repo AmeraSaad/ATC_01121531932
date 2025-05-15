@@ -73,7 +73,7 @@ const EventsPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex gap-8">
-        {/* Main Content */}
+        
         <div className="flex-1">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => (
@@ -129,7 +129,6 @@ const EventsPage = () => {
           <div className="bg-white p-4 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold mb-4">Filters</h3>
             
-            {/* Venue Filter */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Venue
@@ -145,7 +144,6 @@ const EventsPage = () => {
               />
             </div>
 
-            {/* Price Range */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Price Range
@@ -172,7 +170,6 @@ const EventsPage = () => {
               </div>
             </div>
 
-            {/* Sorting */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Sort By
@@ -188,7 +185,6 @@ const EventsPage = () => {
               </select>
             </div>
 
-            {/* Sort Order */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Order

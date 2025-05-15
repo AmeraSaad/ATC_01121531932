@@ -10,6 +10,7 @@ const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [currentPage, setCurrentPage] = useState(1);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [eventToEdit, setEventToEdit] = useState(null);
   const eventsPerPage = 6;
 
   useEffect(() => {
@@ -25,6 +26,16 @@ const AdminPanel = () => {
         console.error("Error deleting event:", error);
       }
     }
+  };
+
+  const handleEditEvent = (event) => {
+    setEventToEdit(event);
+    setIsCreateModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsCreateModalOpen(false);
+    setEventToEdit(null);
   };
 
   // Calculate pagination
@@ -61,15 +72,14 @@ const AdminPanel = () => {
   if (error) return <div className="text-red-500 text-center">{error}</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
       <Toaster position="top-right" />
-      {/* Header */}
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
         <p className="mt-2 text-gray-600">Manage your events and bookings</p>
       </div>
 
-      {/* Tabs */}
       <div className="border-b border-gray-200 mb-8">
         <nav className="-mb-px flex space-x-8">
           <button
@@ -95,12 +105,11 @@ const AdminPanel = () => {
         </nav>
       </div>
 
-      {/* Content */}
       <div className="bg-white rounded-lg shadow">
         {activeTab === "dashboard" && (
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Stats Cards */}
+        
               <div className="bg-orange-50 p-6 rounded-lg">
                 <h3 className="text-lg font-medium text-orange-800">
                   Total Events
@@ -149,7 +158,6 @@ const AdminPanel = () => {
               </button>
             </div>
 
-            {/* Events Table */}
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
@@ -207,12 +215,12 @@ const AdminPanel = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-3">
-                          <Link
-                            to={`/admin/events/edit/${event._id}`}
+                          <button
+                            onClick={() => handleEditEvent(event)}
                             className="text-orange-600 hover:text-orange-900"
                           >
                             Edit
-                          </Link>
+                          </button>
                           <button
                             onClick={() => handleDeleteEvent(event._id)}
                             className="text-red-600 hover:text-red-900"
@@ -249,10 +257,10 @@ const AdminPanel = () => {
         )}
       </div>
 
-      {/* Create Event Modal */}
       <CreateEvent
         isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
+        onClose={handleCloseModal}
+        eventToEdit={eventToEdit}
       />
     </div>
   );

@@ -47,7 +47,6 @@ export default function LoginPage() {
           className="w-full mb-2 p-2 border rounded"
         />
 
-        {/* Forgot Password */}
         <Link
           to={"/forgot-password"}
           className="text-sm text-gray-600 hover:underline cursor-pointer"

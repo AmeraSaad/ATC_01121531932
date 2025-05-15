@@ -3,9 +3,12 @@ import { useEventStore } from "../../../store/eventStore";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
-const CreateEvent = ({ isOpen, onClose }) => {
-  const { createEvent } = useEventStore();
+const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
+  const { createEvent, updateEvent } = useEventStore();
   const [categories, setCategories] = useState([]);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [newCategory, setNewCategory] = useState("");
+  const [isCreatingCategory, setIsCreatingCategory] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -20,17 +23,69 @@ const CreateEvent = ({ isOpen, onClose }) => {
   const [imagePreviews, setImagePreviews] = useState([]);
 
   useEffect(() => {
-    // Fetch categories when component mounts
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/v1/categories");
-        setCategories(response.data.categories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
     fetchCategories();
   }, []);
+
+  // Set initial form data when editing
+  useEffect(() => {
+    if (eventToEdit) {
+      const eventDate = new Date(eventToEdit.date);
+      const formattedDate = eventDate.toISOString().split('T')[0];
+      const formattedTime = eventDate.toTimeString().slice(0, 5);
+      
+      setFormData({
+        name: eventToEdit.name,
+        description: eventToEdit.description,
+        date: formattedDate,
+        time: formattedTime,
+        venue: eventToEdit.venue,
+        price: eventToEdit.price,
+        category: eventToEdit.category._id,
+        images: eventToEdit.images || [],
+      });
+      
+      // Set image previews for existing images
+      setImagePreviews(eventToEdit.images || []);
+    }
+  }, [eventToEdit]);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/v1/categories");
+      setCategories(response.data.categories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      toast.error("Failed to load categories");
+    }
+  };
+
+  const handleCreateCategory = async (e) => {
+    e.preventDefault();
+    if (!newCategory.trim()) {
+      toast.error("Category name is required");
+      return;
+    }
+
+    setIsCreatingCategory(true);
+    try {
+      const response = await axios.post("http://localhost:5000/api/v1/categories", {
+        name: newCategory.trim()
+      });
+      
+      setCategories(prev => [...prev, response.data.category]);
+      setFormData(prev => ({
+        ...prev,
+        category: response.data.category._id
+      }));
+      setNewCategory("");
+      setIsCategoryModalOpen(false);
+      toast.success("Category created successfully");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to create category");
+    } finally {
+      setIsCreatingCategory(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,13 +115,6 @@ const CreateEvent = ({ isOpen, onClose }) => {
     }));
     setImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
-
-  // Cleanup preview URLs when component unmounts
-  useEffect(() => {
-    return () => {
-      imagePreviews.forEach(preview => URL.revokeObjectURL(preview));
-    };
-  }, [imagePreviews]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,25 +150,42 @@ const CreateEvent = ({ isOpen, onClose }) => {
       };
       delete submitData.time; // Remove the time field
 
-      await createEvent(submitData);
-      toast.success("Event created successfully!");
-      setFormData({
-        name: "",
-        description: "",
-        date: "",
-        time: "",
-        venue: "",
-        price: "",
-        category: "",
-        images: [],
-      });
+      if (eventToEdit) {
+        await updateEvent(eventToEdit._id, submitData);
+        toast.success("Event updated successfully!");
+      } else {
+        await createEvent(submitData);
+        toast.success("Event created successfully!");
+      }
+
+      // Reset form only if creating new event
+      if (!eventToEdit) {
+        setFormData({
+          name: "",
+          description: "",
+          date: "",
+          time: "",
+          venue: "",
+          price: "",
+          category: "",
+          images: [],
+        });
+        setImagePreviews([]);
+      }
       onClose();
     } catch (err) {
-      toast.error(err.response?.data?.message || "Error creating event");
+      toast.error(err.response?.data?.message || `Error ${eventToEdit ? 'updating' : 'creating'} event`);
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Cleanup preview URLs when component unmounts
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach(preview => URL.revokeObjectURL(preview));
+    };
+  }, [imagePreviews]);
 
   if (!isOpen) return null;
 
@@ -128,7 +193,9 @@ const CreateEvent = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-900">Create New Event</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            {eventToEdit ? 'Edit Event' : 'Create New Event'}
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
@@ -168,20 +235,29 @@ const CreateEvent = ({ isOpen, onClose }) => {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Category
               </label>
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
-              >
-                <option value="">Select a category</option>
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
+              <div className="flex gap-2">
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => setIsCategoryModalOpen(true)}
+                  className="mt-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                >
+                  New
+                </button>
+              </div>
             </div>
 
             <div>
@@ -352,10 +428,72 @@ const CreateEvent = ({ isOpen, onClose }) => {
               disabled={isLoading}
               className="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-colors text-sm"
             >
-              {isLoading ? "Creating..." : "Create Event"}
+              {isLoading 
+                ? (eventToEdit ? "Updating..." : "Creating...") 
+                : (eventToEdit ? "Update Event" : "Create Event")}
             </button>
           </div>
         </form>
+
+        {/* Category Creation Modal */}
+        {isCategoryModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60]">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-medium text-gray-900">Create New Category</h3>
+                <button
+                  onClick={() => setIsCategoryModalOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <form onSubmit={handleCreateCategory} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Category Name
+                  </label>
+                  <input
+                    type="text"
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                    placeholder="Enter category name"
+                    className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
+                    required
+                  />
+                </div>
+
+                <div className="flex justify-end space-x-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsCategoryModalOpen(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors text-sm"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isCreatingCategory}
+                    className="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-colors text-sm"
+                  >
+                    {isCreatingCategory ? "Creating..." : "Create Category"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
