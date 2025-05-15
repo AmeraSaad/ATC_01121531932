@@ -58,7 +58,7 @@ const EventCard = ({ event }) => {
       <div className="p-4">
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-semibold text-gray-800">{event.name}</h3>
-          <span className="px-2 py-1 text-xs font-medium text-gray-700 rounded-full border border-gray-300">
+          <span className="px-2 py-1 text-xs font-medium text-gray-700 rounded-full border border-gray-300 text-center truncate max-w-[120px]">
             {event.category?.name || "Uncategorized"}
           </span>
         </div>
