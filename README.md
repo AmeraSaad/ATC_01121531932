@@ -13,7 +13,6 @@ How to Login as Admin
 2- Find the user you want (e.g. by email)
 
 3- Edit the document → set:
-  ```bash
    "isAdmin": true
 
 4- Save → Login with that user → now admin access enabled
