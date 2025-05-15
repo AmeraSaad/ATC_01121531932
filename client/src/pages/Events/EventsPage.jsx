@@ -20,7 +20,6 @@ const EventsPage = () => {
     sortOrder: "asc",
   });
 
-  // Local state for input values
   const [inputValues, setInputValues] = useState({
     venue: "",
     minPrice: "",
@@ -28,7 +27,6 @@ const EventsPage = () => {
   });
 
   useEffect(() => {
-    // Fetch categories
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/v1/categories`);
