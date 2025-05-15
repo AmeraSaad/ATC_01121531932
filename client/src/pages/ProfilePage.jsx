@@ -130,11 +130,11 @@ const ProfilePage = () => {
                   >
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
                       {/* Event Image */}
-                      {booking.event.images && booking.event.images[0] && (
+                      {booking.event?.images?.[0] && (
                         <div className="w-full md:w-32 h-32 flex-shrink-0">
                           <img
                             src={booking.event.images[0]}
-                            alt={booking.event.name}
+                            alt={booking.event?.name || 'Event image'}
                             className="w-full h-full object-cover rounded-lg"
                           />
                         </div>
@@ -145,28 +145,30 @@ const ProfilePage = () => {
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                           <div>
                             <h4 className="text-lg font-semibold text-gray-900">
-                              {booking.event.name}
+                              {booking.event?.name || 'Event not available'}
                             </h4>
                             <p className="text-sm text-gray-600">
-                              {new Date(booking.event.date).toLocaleDateString()}
+                              {booking.event?.date ? new Date(booking.event.date).toLocaleDateString() : 'Date not available'}
                             </p>
                           </div>
                           <div className="flex items-center gap-4">
                             <span className="text-orange-600 font-semibold">
-                              ${booking.event.price}
+                              ${booking.event?.price || '0'}
                             </span>
-                            <Link
-                              to={`/events/${booking.event._id}`}
-                              className="text-sm text-orange-600 hover:text-orange-700 hover:underline"
-                            >
-                              View Details
-                            </Link>
+                            {booking.event?._id && (
+                              <Link
+                                to={`/events/${booking.event._id}`}
+                                className="text-sm text-orange-600 hover:text-orange-700 hover:underline"
+                              >
+                                View Details
+                              </Link>
+                            )}
                           </div>
                         </div>
                         <div className="mt-2 flex flex-col md:flex-row md:items-center md:justify-between">
                           <div>
                             <p className="text-sm text-gray-600">
-                              Venue: {booking.event.venue}
+                              Venue: {booking.event?.venue || 'Venue not available'}
                             </p>
                             <p className="text-sm text-gray-500 mt-1">
                               Booked on: {new Date(booking.bookedAt).toLocaleDateString()}
