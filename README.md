@@ -126,13 +126,14 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    JWT_SECRET=your_jwt_secret
    CLIENT_URL=https://event-booking-system-client.vercel.app
    NODE_ENV=production
-   MAILTRAP_TOKEN= 
+   MAILTRAP_TOKEN= your_token
    SERVER_EMAIL= your_SERVER_EMAI
    EMAIL_PASS= your_EMAIL_PASS
    CLIENT_URL=
    CLOUDINARY_CLOUD_NAME= your_CLOUD_NAME
    CLOUDINARY_API_KEY= your_API_KEY
    CLOUDINARY_API_SECRET= ypur_API_SECRET
+
 
 4. **Run** locally
 
