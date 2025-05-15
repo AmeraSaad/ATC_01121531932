@@ -2,6 +2,7 @@ const express = require('express');
 const helmet = require("helmet");
 const cors = require('cors');
 require("dotenv").config();
+const mongoose = require("mongoose");  
 const connectDB = require("./db/connectDB");
 const { notFound, errorHanlder } = require("./middleware/errors");
 const cookieParser = require('cookie-parser');
