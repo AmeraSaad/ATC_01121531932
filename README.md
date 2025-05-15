@@ -9,7 +9,7 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
 ---
 ### 🔐 How to Login as Admin
 
-1. Open MongoDB and go to the `users` collection  
+1. Open your MongoDB and go to the `users` collection  
 2. Find the user document (e.g., by email)  
 3. Set the `isAdmin` field to `true`:
 
@@ -149,6 +149,7 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    CLOUDINARY_API_SECRET= ypur_API_SECRET
 
 ---
+
 4. **Run** locally
 
     ```bash
