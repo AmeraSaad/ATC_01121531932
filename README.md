@@ -108,37 +108,33 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    ```bash
    git clone https://github.com/your-username/event-booking-system.git
    cd event-booking-system
-1. **Clone** the repo
+1. **Install** dependencies
 
-   ```bash
-   git clone https://github.com/your-username/event-booking-system.git
-   cd event-booking-system
-2- Install dependencies
+    ```bash
+    # Backend
+    cd server && npm install
+  
+   # Frontend
+   cd ../client && npm install
 
-   ```bash
-  # Backend
-  cd server && npm install
+3- **Configure** environment variables
 
-  # Frontend
-  cd ../client && npm install
+   Create a `.env` file in the `server/` folder:
 
-3- Configure environment variables
+   ```env
+   MONGO_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret
+   CLIENT_URL=https://event-booking-system-client.vercel.app
+   NODE_ENV=production
+   MAILTRAP_TOKEN= 
+   SERVER_EMAIL= your_SERVER_EMAI
+   EMAIL_PASS= your_EMAIL_PASS
+   CLIENT_URL=
+   CLOUDINARY_CLOUD_NAME= your_CLOUD_NAME
+   CLOUDINARY_API_KEY= your_API_KEY
+   CLOUDINARY_API_SECRET= ypur_API_SECRET
 
-Create a `.env` file in the `server/` folder:
-
-```env
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-CLIENT_URL=https://event-booking-system-client.vercel.app
-NODE_ENV=production
-MAILTRAP_TOKEN= 
-SERVER_EMAIL= your_SERVER_EMAI
-EMAIL_PASS= your_EMAIL_PASS
-CLIENT_URL=
-CLOUDINARY_CLOUD_NAME= your_CLOUD_NAME
-CLOUDINARY_API_KEY= your_API_KEY
-CLOUDINARY_API_SECRET= ypur_API_SECRET
-4- Run locally
+4- **Run** locally
   ```bash
   # Backend
   cd server
