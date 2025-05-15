@@ -18,7 +18,7 @@ function App() {
   return (
     <>
       <RouterProvider router={routes} />
-      <Toaster />
+      <Toaster position="top-right" />
     </>
   );
 }

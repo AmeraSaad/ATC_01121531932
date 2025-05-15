@@ -12,13 +12,15 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/Auth/LoginPage";
 import SignupPage from "../pages/Auth/SignupPage";
 import ProfilePage from "../pages/ProfilePage";
-import AdminPanel from "../pages/AdminPanel";
+import AdminPanel from "../pages/Admin/AdminPanel";
 
 // Lazy-loaded pages
 // const LoginPage = lazy(() => import("../pages/Auth/LoginPage"));
 // const SignupPage = lazy(() => import("../pages/Auth/SignupPage"));
 // const HomePage = lazy(() => import("../pages/HomePage"));
-const ForgotPasswordPage = lazy(() => import("../pages/Auth/ForgotPasswordPage"));
+const ForgotPasswordPage = lazy(() =>
+  import("../pages/Auth/ForgotPasswordPage")
+);
 const ResetPasswordPage = lazy(() => import("../pages/Auth/ResetPasswordPage"));
 
 const withSuspense = (element) => (
@@ -38,9 +40,7 @@ const routes = createBrowserRouter([
       {
         path: "profile",
         element: (
-          <ProtectedRoute>
-            {withSuspense(<ProfilePage />)}
-          </ProtectedRoute>
+          <ProtectedRoute>{withSuspense(<ProfilePage />)}</ProtectedRoute>
         ),
       },
       // Admin Routes

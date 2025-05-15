@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useEventStore } from "../store/eventStore";
+import { useEventStore } from "../../store/eventStore";
 import { Link } from "react-router-dom";
-import LoadingSpinner from "../components/common/LoadingSpinner";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import CreateEvent from "./components/CreateEvent";
+import { Toaster } from "react-hot-toast";
 
 const AdminPanel = () => {
   const { events, isLoading, error, deleteEvent, getEvents } = useEventStore();
   const [activeTab, setActiveTab] = useState("dashboard");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const eventsPerPage = 6;
 
   useEffect(() => {
@@ -59,6 +62,7 @@ const AdminPanel = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Toaster position="top-right" />
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
@@ -137,12 +141,12 @@ const AdminPanel = () => {
               <h2 className="text-xl font-semibold text-gray-900">
                 Manage Events
               </h2>
-              <Link
-                to="/admin/events/create"
+              <button
+                onClick={() => setIsCreateModalOpen(true)}
                 className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
               >
                 Create New Event
-              </Link>
+              </button>
             </div>
 
             {/* Events Table */}
@@ -190,7 +194,7 @@ const AdminPanel = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {event.category?.name || 'Uncategorized'}
+                        {event.category?.name || "Uncategorized"}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {new Date(event.date).toLocaleDateString()}
@@ -244,6 +248,12 @@ const AdminPanel = () => {
           </div>
         )}
       </div>
+
+      {/* Create Event Modal */}
+      <CreateEvent
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+      />
     </div>
   );
 };
