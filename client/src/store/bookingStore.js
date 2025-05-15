@@ -63,7 +63,7 @@ export const useBookingStore = create((set) => ({
   // Check if an event is booked
   isEventBooked: (eventId) => {
     const state = useBookingStore.getState();
-    return state.bookings.some((booking) => booking.event._id === eventId);
+    return state.bookings.some((booking) => booking.event && booking.event._id === eventId);
   },
 
   // Clear error
