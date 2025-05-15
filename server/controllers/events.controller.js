@@ -124,6 +124,10 @@ exports.getEventById = asyncHandler(async (req, res) => {
  * @access  Admin
  */
 exports.updateEvent = asyncHandler(async (req, res) => {
+  if (req.body.images && !Array.isArray(req.body.images)) {
+    req.body.images = [req.body.images];
+  }
+  
   const { error } = validateEvent(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
