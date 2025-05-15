@@ -77,7 +77,7 @@ const AdminPanel = () => {
 
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
-        <p className="mt-2 text-gray-600">Manage your events and bookings</p>
+        <p className="mt-2 text-gray-600">Manage The Events</p>
       </div>
 
       <div className="border-b border-gray-200 mb-8">
