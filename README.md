@@ -19,6 +19,15 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application for managin
    }
 4- Save → Login with that user → now admin access enabled 
 
+or
+
+#### For Test Without Installation
+You can test the app directly from the deployed version
+
+Use the following credentials to log in as an admin:
+
+- **Email:** `admin@eventsystem.com`  
+- **Password:** `Admin@123`
 ---
 
 ## 🚀 Features
