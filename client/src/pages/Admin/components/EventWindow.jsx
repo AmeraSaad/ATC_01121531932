@@ -29,7 +29,6 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
     fetchCategories();
   }, []);
 
-  // Set initial form data when editing
   useEffect(() => {
     if (eventToEdit) {
       const eventDate = new Date(eventToEdit.date);
@@ -47,7 +46,6 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
         images: eventToEdit.images || [],
       });
       
-      // Set image previews for existing images
       setImagePreviews(eventToEdit.images || []);
     }
   }, [eventToEdit]);
@@ -81,7 +79,6 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     
-    // Create preview URLs for selected images
     const previews = files.map(file => URL.createObjectURL(file));
     setImagePreviews(prev => [...prev, ...previews]);
     
@@ -103,7 +100,6 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Validate time is not in the past if date is today
     const today = new Date();
     const eventDate = new Date(formData.date);
     if (
@@ -122,7 +118,6 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
     }
 
     try {
-      // Combine date and time into a single ISO string for the 'date' field
       let combinedDate = formData.date;
       if (formData.date && formData.time) {
         combinedDate = new Date(`${formData.date}T${formData.time}`).toISOString();
@@ -131,7 +126,7 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
         ...formData,
         date: combinedDate,
       };
-      delete submitData.time; // Remove the time field
+      delete submitData.time; 
 
       if (eventToEdit) {
         await updateEvent(eventToEdit._id, submitData);
@@ -141,7 +136,6 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
         toast.success("Event created successfully!");
       }
 
-      // Reset form only if creating new event
       if (!eventToEdit) {
         setFormData({
           name: "",
@@ -163,7 +157,6 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
     }
   };
 
-  // Cleanup preview URLs when component unmounts
   useEffect(() => {
     return () => {
       imagePreviews.forEach(preview => URL.revokeObjectURL(preview));

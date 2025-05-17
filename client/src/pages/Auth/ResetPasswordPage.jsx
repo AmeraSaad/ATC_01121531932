@@ -17,13 +17,9 @@ export default function ResetPasswordPage() {
       toast.error("Passwords do not match");
       return;
     }
-    try {
       await resetPassword(token, password);
       toast.success("Password reset successful! Redirecting to login...");
       setTimeout(() => navigate("/login"), 2000);
-    } catch {
-      // error is in store.error
-    }
   };
 
   return (

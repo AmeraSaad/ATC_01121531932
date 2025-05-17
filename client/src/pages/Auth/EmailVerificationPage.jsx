@@ -22,7 +22,6 @@ const EmailVerificationPage = () => {
     });
     
     setCode(newCode);
-    // Focus the next empty input or the last input
     const nextIdx = newCode.findIndex((c) => c === '') !== -1 
       ? newCode.findIndex((c) => c === '')
       : 5;
@@ -54,8 +53,6 @@ const EmailVerificationPage = () => {
     }
   };
 
-
-  // auto-submit once all digits are entered
   useEffect(() => {
     if (code.every((d) => d !== "")) {
       handleSubmit(new Event("submit"));
