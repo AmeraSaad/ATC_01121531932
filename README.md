@@ -168,6 +168,6 @@ Use the following credentials to log in as an admin:
 
      # Frontend
      cd ../client
-     npm start
+     npm run dev
      
 
