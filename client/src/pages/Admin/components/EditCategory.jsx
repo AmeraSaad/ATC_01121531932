@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import CloseIcon from "../../../components/icons/CloseIcon";
@@ -6,8 +6,15 @@ import CloseIcon from "../../../components/icons/CloseIcon";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const EditCategory = ({ isOpen, onClose, category, onCategoryUpdated }) => {
-  const [categoryName, setCategoryName] = useState(category?.name || "");
+  const [categoryName, setCategoryName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+ 
+  useEffect(() => {
+    if (category) {
+      setCategoryName(category.name);
+    }
+  }, [category]);
 
   const handleUpdateCategory = async (e) => {
     e.preventDefault();
@@ -32,7 +39,7 @@ const EditCategory = ({ isOpen, onClose, category, onCategoryUpdated }) => {
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !category) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60]">
