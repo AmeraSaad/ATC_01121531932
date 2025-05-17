@@ -4,14 +4,14 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import CloseIcon from "../../../components/icons/CloseIcon";
 import UploadIcon from "../../../components/icons/UploadIcon";
+import CategoryModal from "./CreateCategory";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
   const { createEvent, updateEvent } = useEventStore();
   const [categories, setCategories] = useState([]);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-  const [newCategory, setNewCategory] = useState("");
-  const [isCreatingCategory, setIsCreatingCategory] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -62,32 +62,12 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
     }
   };
 
-  const handleCreateCategory = async (e) => {
-    e.preventDefault();
-    if (!newCategory.trim()) {
-      toast.error("Category name is required");
-      return;
-    }
-
-    setIsCreatingCategory(true);
-    try {
-      const response = await axios.post(`${API_URL}/api/v1/categories`, {
-        name: newCategory.trim()
-      });
-      
-      setCategories(prev => [...prev, response.data.category]);
-      setFormData(prev => ({
-        ...prev,
-        category: response.data.category._id
-      }));
-      setNewCategory("");
-      setIsCategoryModalOpen(false);
-      toast.success("Category created successfully");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to create category");
-    } finally {
-      setIsCreatingCategory(false);
-    }
+  const handleCategoryCreated = (newCategory) => {
+    setCategories(prev => [...prev, newCategory]);
+    setFormData(prev => ({
+      ...prev,
+      category: newCategory._id
+    }));
   };
 
   const handleChange = (e) => {
@@ -411,57 +391,11 @@ const CreateEvent = ({ isOpen, onClose, eventToEdit = null }) => {
           </div>
         </form>
 
-        {/* Category Creation Modal */}
-        {isCategoryModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60]">
-            <div className="bg-white rounded-lg p-6 max-w-md w-full">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-900">
-                  Create New Category
-                </h3>
-                <button
-                  onClick={() => setIsCategoryModalOpen(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <CloseIcon className="h-5 w-5" />
-                </button>
-              </div>
-
-              <form onSubmit={handleCreateCategory} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Category Name
-                  </label>
-                  <input
-                    type="text"
-                    value={newCategory}
-                    onChange={(e) => setNewCategory(e.target.value)}
-                    placeholder="Enter category name"
-                    className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors text-sm"
-                    required
-                  />
-                </div>
-
-                <div className="flex justify-end space-x-3">
-                  <button
-                    type="button"
-                    onClick={() => setIsCategoryModalOpen(false)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors text-sm"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isCreatingCategory}
-                    className="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 transition-colors text-sm"
-                  >
-                    {isCreatingCategory ? "Creating..." : "Create Category"}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        <CategoryModal
+          isOpen={isCategoryModalOpen}
+          onClose={() => setIsCategoryModalOpen(false)}
+          onCategoryCreated={handleCategoryCreated}
+        />
       </div>
     </div>
   );
