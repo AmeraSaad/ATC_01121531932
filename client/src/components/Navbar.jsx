@@ -57,14 +57,10 @@ const Navbar = () => {
             >
               Home
             </Link>
-            <p
-              className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
-            >
+            <p className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
               About Us
             </p>
-            <p
-              className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
-            >
+            <p className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
               Support
             </p>
             {isAuthenticated && user.isAdmin && (
@@ -77,20 +73,18 @@ const Navbar = () => {
             )}
           </div>
 
-          <div 
+          <div
             ref={dropdownRef}
             className="relative"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <button
-              className="flex items-center text-gray-600 hover:text-gray-800 focus:outline-none"
-            >
+            <button className="flex items-center text-gray-600 hover:text-gray-800 focus:outline-none cursor-pointer">
               <UserIcon className="w-8 h-8" />
             </button>
 
             {isDropdownOpen && (
-              <div 
+              <div
                 className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
