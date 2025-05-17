@@ -5,6 +5,7 @@ import LoadingSpinner from "../../components/common/LoadingSpinner";
 import CreateEvent from "./components/EventWindow";
 import DashboardTab from "./components/DashboardTab";
 import EventsTab from "./components/EventsTab";
+import CategoriesTab from "./components/CategoriesTab";
 
 const AdminPanel = () => {
   const { events, isLoading, error, deleteEvent, getEvents } = useEventStore();
@@ -15,7 +16,6 @@ const AdminPanel = () => {
   const eventsPerPage = 6;
 
   useEffect(() => {
-    // Fetch all events without pagination for admin panel
     getEvents({ limit: 1000 });
   }, []);
 
@@ -61,7 +61,7 @@ const AdminPanel = () => {
         <p className="mt-2 text-gray-600">Manage The Events</p>
       </div>
 
-      <div className="border-b border-gray-200 mb-8">
+      <div className="border-b border-gray-200 mb-8 ">
         <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setActiveTab("dashboard")}
@@ -69,7 +69,7 @@ const AdminPanel = () => {
               activeTab === "dashboard"
                 ? "border-orange-500 text-orange-600"
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm cursor-pointer`}
           >
             Dashboard
           </button>
@@ -79,9 +79,19 @@ const AdminPanel = () => {
               activeTab === "events"
                 ? "border-orange-500 text-orange-600"
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm cursor-pointer`}
           >
             Events
+          </button>
+          <button
+            onClick={() => setActiveTab("categories")}
+            className={`${
+              activeTab === "categories"
+                ? "border-orange-500 text-orange-600"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm cursor-pointer`}
+          >
+            Categories
           </button>
         </nav>
       </div>
@@ -99,6 +109,7 @@ const AdminPanel = () => {
             setIsCreateModalOpen={setIsCreateModalOpen}
           />
         )}
+        {activeTab === "categories" && <CategoriesTab />}
       </div>
 
       <CreateEvent
