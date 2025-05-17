@@ -79,7 +79,7 @@ const EventsPage = () => {
               !filters.category
                 ? "bg-orange-600 text-white"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+            } cursor-pointer`}
           >
             All Categories
           </button>
@@ -91,7 +91,7 @@ const EventsPage = () => {
                 filters.category === category._id
                   ? "bg-orange-600 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
+              } cursor-pointer`}
             >
               {category.name}
             </button>
